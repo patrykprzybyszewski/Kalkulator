@@ -1,0 +1,93 @@
+class Operation:
+    def __init__(self, num1, num2):
+        self.num1 = num1
+        self.num2 = num2
+
+    def execute(self):
+        raise NotImplementedError("Metoda execute() musi być zaimplementowana.")
+
+
+class Addition(Operation):
+    def execute(self):
+        return self.num1 + self.num2
+
+
+class Subtraction(Operation):
+    def execute(self):
+        return self.num1 - self.num2
+
+
+class Multiplication(Operation):
+    def execute(self):
+        return self.num1 * self.num2
+
+
+class Division(Operation):
+    def execute(self):
+        if self.num2 == 0:
+            raise ValueError("Nie można dzielić przez zero.")
+        return self.num1 / self.num2
+
+
+class Modulo(Operation):
+    def execute(self):
+        if self.num2 == 0:
+            raise ValueError("Nie można wykonać operacji modulo z zero.")
+        return self.num1 % self.num2
+
+
+class Exponentiation(Operation):
+    def execute(self):
+        return self.num1 ** self.num2
+
+
+def main():
+    operations = {
+        '1': Addition,
+        '2': Subtraction,
+        '3': Multiplication,
+        '4': Division,
+        '5': Modulo,
+        '6': Exponentiation
+    }
+
+    while True:
+        print("\nProsty Kalkulator")
+        print("Wybierz operację:")
+        print("1. Dodawanie")
+        print("2. Odejmowanie")
+        print("3. Mnożenie")
+        print("4. Dzielenie")
+        print("5. Modulo")
+        print("6. Potęgowanie")
+        print("7. Wyjście")
+
+        choice = input("Wybierz operację (1/2/3/4/5/6/7): ")
+
+        if choice == '7':
+            print("Koniec programu.")
+            break
+
+        try:
+            if choice not in operations:
+                raise ValueError("Niepoprawny wybór operacji.")
+
+            num1 = float(input("Podaj pierwszą liczbę: "))
+            num2 = float(input("Podaj drugą liczbę: "))
+
+            operation_class = operations[choice]
+            operation = operation_class(num1, num2)
+            result = operation.execute()
+
+            print(f"Wynik operacji: {result}")
+
+        except ValueError as e:
+            print(f"Błąd: {e}")
+        except ZeroDivisionError:
+            print("Błąd: Nie można dzielić przez zero.")
+        except Exception as e:
+            print(f"Niespodziewany błąd: {e}")
+
+
+if __name__ == "__main__":
+    main()
